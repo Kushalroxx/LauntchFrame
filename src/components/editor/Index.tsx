@@ -9,7 +9,7 @@ import { HTML5Backend } from 'react-dnd-html5-backend'
 
 function Editor() {
   return (
-    <div>
+    <div className='md:block hidden bg-background'>
         <EditorTopBar/>
         <div className='flex justify-between h-screen'>
         <DndProvider backend={HTML5Backend}>

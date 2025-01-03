@@ -15,7 +15,7 @@ import { IoDesktopOutline } from "react-icons/io5";
 function EditorTopBar() {
   const [preview, setPreview] = useAtom(previewState)
   return (
-    <div className='flex justify-between h-10 bg-primary px-10'>
+    <div className='flex w-full justify-between h-14 bg-background/95 text-foreground z-50 sticky top-0 bg-opacity-90 backdrop-blur supports-[backdrop-filter]:bg-background/65 border-b border-b-foreground/25 px-10 '>
       <div className='flex gap-1 justify-center items-center'>
       <h1>LOGO</h1>
       </div>

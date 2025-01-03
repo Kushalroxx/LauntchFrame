@@ -9,6 +9,9 @@ export default {
   ],
   theme: {
   	extend: {
+		backgroundImage:{
+			grid: 'var(--gradient)',
+		},
   		colors: {
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
