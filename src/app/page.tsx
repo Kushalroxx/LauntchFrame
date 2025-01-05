@@ -7,7 +7,7 @@ import {HTML5Backend} from "react-dnd-html5-backend"
 export default function Home() {  
   // await sendMail()
   return (
-    <div className="">
+    <div className="h-screen ">
        
         <Editor/>
     </div>

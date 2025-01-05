@@ -1,27 +1,41 @@
 import { UUIDTypes } from 'uuid';
 import { useAtom } from 'jotai';
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useDrop } from 'react-dnd'
-import { editorState } from '@/lib/atoms/Atoms';
+import { canvasSizeState, editorState } from '@/lib/atoms/Atoms';
 import EditorRenderingHelper from './Editor-ui/EditorRenderingHelper';
-import { dragAbleTypes } from '../types/edetorTypes';
+import { dragAbleTypes, elements } from '../types/editorTypes';
 import { addElement } from './lib/addElement';
+import {motion} from "framer-motion"
+import { Button, Card, CardHeader, CardTitle, ScrollArea } from '@/components/ui';
 
 function Canvas() {
   const [elements, setElements] = useAtom(editorState)
+  const [canvasSize, setCanvasSize] = useAtom(canvasSizeState)
+  useEffect(()=>{
+    console.log(elements);
+    
+  },[elements])
   const [,drop] = useDrop(()=>({
     accept:Object.values(dragAbleTypes),
-    drop:(item:{id:UUIDTypes,type:string}, monitor)=>{
+    drop:(item:{id:UUIDTypes,type:elements,index?:number}, monitor)=>{
+      console.log(item);
+      
+      if(item.index != undefined){
+        return
+    }else{
       addElement(item, setElements)
-    }
+    }}
   }))
   return (
-    // @ts-ignore
-    <div className='h-full w-full flex flex-col items-center bg-background/25'ref={drop}>
-      {elements.map(e=>{
-        return(<EditorRenderingHelper key={e.id.toString()} element = {e}/>)
+    //  @ts-ignore
+    <motion.div initial={{width:1024}} animate={{width: canvasSize.width}} transition={{ease:"backInOut",duration:0.4}} className=' w-full bg-background shadow-xl shadow-foreground/40' ref={drop}>
+      <ScrollArea className='h-[95vh]'>
+      {elements.map((e, index)=>{
+        return(<EditorRenderingHelper index={index} key={e.id.toString()} element = {e}/>)
       })}
-    </div>
+      </ScrollArea>
+    </motion.div>
 
   )
 }

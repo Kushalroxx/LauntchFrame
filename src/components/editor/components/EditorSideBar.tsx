@@ -5,7 +5,7 @@ import Elements from './Editor-ui/elements'
 
 function EditorSideBar() {
   return (
-    <div className='w-[20%] border-r border-r-foreground/30  h-full bg-background text-foreground'>
+    <div className='w-[14%] border-r border-r-foreground/30  h-full bg-background text-foreground'>
       <Pages className=' max-h-[60vh]'/>
             <Elements/>
       

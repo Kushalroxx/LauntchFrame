@@ -1,35 +1,56 @@
 import { UUIDTypes, v4 as uuid } from "uuid"
-import { elementType } from "../../types/edetorTypes"
+import { elementType,elements } from "../../types/editorTypes"
 
 export const addElement = (
-    item:{id:UUIDTypes,type:string},
+    item:{id:UUIDTypes,type:elements},
     setElements:(e:(prev:elementType)=>elementType)=>void)=>{
-    if (item.type==="card") {
-        const newElement:elementType[number] = {
-            id:item.id,
-            type:item.type,
-            style:"",
-            childElement:[{
-                id:uuid(),
-                style:"",
-                type:"typographyh1",
-                text: "Title"
-            },{
-                id:uuid(),
-                style:"",
-                type:"label",
-                text: "Label"
-            },{
-                id:uuid(),
-                style:"",
-                type:"input",
-            },{
-                id:uuid(),
-                style:"",
-                type:"button",
-                text: "Click"
-            }]
-        }
-        setElements(e=>[...e, newElement])
-    }
+        let newElement:elementType[number]|undefined 
+        if (item.type==="card") {
+            newElement = {
+                id:item.id,
+                type:item.type,
+                childElement:[{
+                    id:uuid(),
+                    type:"typographyh1",
+                    text: "title"
+                },{
+                    id:uuid(),
+                    type:"label",
+                    text: "Label"
+                },{
+                    id:uuid(),
+                    type:"input",
+                },{
+                    id:uuid(),
+                    type:"button",
+                    text: "Click"
+                }]
+            }
+        }else if (item.type === "typographyh1"){
+            newElement = {
+                id:item.id,
+                type:item.type,
+                text:"h1"
+            }
+        }else if(item.type === "button"){
+            newElement = {
+                id:item.id,
+                type:item.type,
+                text:"click"
+            }
+        }else if(item.type === "input"){
+            newElement = {
+                id:item.id,
+                type:item.type,
+            }
+        }else if(item.type === "label"){
+            newElement = {
+                id:item.id,
+                type:item.type,
+                text: "label"
+            }
+        }else{       
+            }
+        newElement?setElements(e=>[...e, newElement]):""
+    
 }

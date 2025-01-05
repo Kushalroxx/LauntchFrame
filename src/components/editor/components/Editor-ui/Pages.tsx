@@ -6,7 +6,7 @@ import AccordionSimple from '@/components/ui/accordionSimple'
 function Pages({className}:{className?:string}) {
   return (
     <div className={className}>
-        <ScrollArea>
+        <ScrollArea className='overflow-y-auto'>
       <AccordionSimple content={<AccordionSimple heading='NavBar' content={"arr"}/>} heading='home'/>
         </ScrollArea>
     </div>

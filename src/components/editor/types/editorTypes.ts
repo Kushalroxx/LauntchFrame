@@ -6,7 +6,7 @@ export type webSiteType = {
   elements?:elementType
 }[]
 
-type elements = "card"|"input"|"button"|"label"|"typographyh1"
+export type elements = "card"|"input"|"button"|"label"|"typographyh1"
 
 export type elementType = {
     id:UUIDTypes,

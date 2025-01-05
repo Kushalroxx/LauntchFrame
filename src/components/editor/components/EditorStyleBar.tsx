@@ -2,7 +2,7 @@ import React from 'react'
 
 function EditorStyleBar() {
   return (
-    <div className=''>EditorStyleBar</div>
+    <div className='bg-background'>EditorStyleBar</div>
   )
 }
 
