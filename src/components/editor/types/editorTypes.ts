@@ -17,7 +17,13 @@ export type elementType = {
       id:UUIDTypes,
       type:elements,
       text?:string,
-      style?:string
+      style?:string,
+      childElement?:{
+        id:UUIDTypes,
+      type:elements,
+      text?:string,
+      style?:string,
+      }[]
     }[]
   }[]
   export const dragAbleTypes = {

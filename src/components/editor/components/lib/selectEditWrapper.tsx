@@ -5,6 +5,9 @@ import React, { cloneElement, useEffect, useRef, useState } from 'react'
 import { UUIDTypes } from 'uuid'
 import { dragAbleTypes, elements } from '../../types/editorTypes'
 import { useDrag, useDrop } from 'react-dnd'
+import { number } from 'zod'
+import { removeReturnElement } from './removeReturnElement'
+import { loopHandlerDND } from './loopHandlerDND'
 
 function SelectEditWrapper({ children, id, type, index }: { children: React.ReactElement<any> ,
   id:UUIDTypes,
@@ -25,10 +28,16 @@ function SelectEditWrapper({ children, id, type, index }: { children: React.Reac
     }))
     const [, drop] = useDrop(()=>({
         accept:Object.values(dragAbleTypes),
-        hover:(item:{index:number, type:string},monitor)=>{
-            console.log("item:", item, "index:", index);
-            
-        }
+        drop:(item:{index:number, id:UUIDTypes, type:string},monitor)=>{        
+            setElements((prev) => {
+              const oldElements = [...prev];
+              const [movedElement] = oldElements.splice(item.index, 1);
+              oldElements.splice(index, 0, movedElement);
+              return oldElements;
+            });
+        
+            // Update the `index` of the dragged item to prevent reordering
+            }
     }))
     useEffect(() => {
         if (designer && elementRef.current) {

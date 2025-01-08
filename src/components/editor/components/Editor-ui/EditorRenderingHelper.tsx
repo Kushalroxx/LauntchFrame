@@ -18,7 +18,7 @@ function EditorRenderingHelper({ element, index }: {
     if (element.type === "card"){
       return(
         <SelectEditWrapper id={element.id} type={element.type} index={index}>
-          <Card className="flex flex-col space-y-3 p-7" id={element.id.toString()}>
+          <Card className={`flex flex-col space-y-3 p-7 ${element.style}`} id={element.id.toString()}>
       {
         element.childElement?.map((e,i)=>{
           return(
@@ -31,25 +31,25 @@ function EditorRenderingHelper({ element, index }: {
     }else if(element.type === "input"){
       return(
         <SelectEditWrapper id={element.id} type={element.type} index={index}>
-        <Input id={element.id.toString()}/>
+        <Input className={element.style} id={element.id.toString()}/>
         </SelectEditWrapper>
         )
     }else if(element.type === "button"){
       return(
         <SelectEditWrapper id={element.id} type={element.type} index={index}>
-        <Button className='' id={element.id.toString()}>{element.text}</Button>
+        <Button className={element.style} id={element.id.toString()}>{element.text}</Button>
         </SelectEditWrapper>
 )
     }else if (element.type === "label") {
       return(
         <SelectEditWrapper id={element.id} type={element.type} index={index}>
-        <Label id={element.id.toString()}>{element.text}</Label>
+        <Label className={element.style} id={element.id.toString()}>{element.text}</Label>
         </SelectEditWrapper>
       )
     }else if (element.type === "typographyh1") {
       return(
         <SelectEditWrapper id={element.id} type={element.type} index={index}>
-        <h1 className='text-foreground font-extrabold text-2xl' id={element.id.toString()}>{element.text}</h1>
+        <h1 className={`text-foreground font-extrabold text-2xl ${element.style}`} id={element.id.toString()}>{element.text}</h1>
         </SelectEditWrapper>
       )
     }

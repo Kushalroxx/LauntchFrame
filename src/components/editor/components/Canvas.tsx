@@ -12,24 +12,29 @@ import { Button, Card, CardHeader, CardTitle, ScrollArea } from '@/components/ui
 function Canvas() {
   const [elements, setElements] = useAtom(editorState)
   const [canvasSize, setCanvasSize] = useAtom(canvasSizeState)
-  useEffect(()=>{
-    console.log(elements);
+  // useEffect(()=>{
+  //   console.log(elements);
     
-  },[elements])
+  // },[elements])
   const [,drop] = useDrop(()=>({
     accept:Object.values(dragAbleTypes),
-    drop:(item:{id:UUIDTypes,type:elements,index?:number}, monitor)=>{
-      console.log(item);
-      
-      if(item.index != undefined){
-        return
+    drop:(item:{id:UUIDTypes,type:elements,index?:number}, monitor)=>{ 
+      if(item.index != undefined && item.index >= 0){
+        setElements(prev=>{
+          const oldElements = [...prev]
+          if(item.index!=undefined){
+            // const movedElement = oldElements.splice(item.index, 1)
+            // oldElements.push(movedElement[0])
+          }
+          return oldElements
+        })
     }else{
       addElement(item, setElements)
     }}
   }))
   return (
     //  @ts-ignore
-    <motion.div initial={{width:1024}} animate={{width: canvasSize.width}} transition={{ease:"backInOut",duration:0.4}} className=' w-full bg-background shadow-xl shadow-foreground/40' ref={drop}>
+    <motion.div initial={{width:1024}} animate={{width: canvasSize.width}} transition={{ease:"backInOut",duration:0.6}} className=' w-full bg-background shadow-xl shadow-foreground/40' ref={drop}>
       <ScrollArea className='h-[95vh]'>
       {elements.map((e, index)=>{
         return(<EditorRenderingHelper index={index} key={e.id.toString()} element = {e}/>)

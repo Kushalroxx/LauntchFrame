@@ -17,7 +17,7 @@ function HoverButton({
   return (
    <HoverCard>
     <HoverCardTrigger >
-        <Button variant={"link"} onClick={onClick} className={`h-6 hover:bg-foreground/10 w-6 py-1 px-3 ml-1 ${className}`} >{buttonText}</Button>
+        <Button variant={"link"} onClick={onClick} className={`h-6 hover:bg-foreground/10 dark:text-foreground w-6 py-1 px-3 ml-1 ${className}`} >{buttonText}</Button>
     </HoverCardTrigger>
     <HoverCardContent>
         {cardText}
