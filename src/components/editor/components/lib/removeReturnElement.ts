@@ -2,16 +2,15 @@ import { UUIDTypes } from "uuid";
 import { elementType } from "../../types/editorTypes";
 
 export const removeReturnElement = (elements:elementType,id:UUIDTypes)=>{
-    let removedElement:undefined|elementType
+    let element:elementType[number]|null = null
     elements.forEach((e, index)=>{
-        if (removedElement)return
         if(e.id === id){
-            removedElement = elements.splice(index,1)
-        }else{
-            e.childElement && removeReturnElement(e.childElement, id)
+            element =  elements.splice(index,1)[0]            
+            return element
+        }if(e.childElement){
+            const found = removeReturnElement(e.childElement, id)
+            return found
         }
     })
-    if(removedElement){
-        return removedElement[0]
-    }
+     if(element)return element
 }

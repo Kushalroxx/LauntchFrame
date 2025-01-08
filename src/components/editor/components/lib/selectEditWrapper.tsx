@@ -30,13 +30,15 @@ function SelectEditWrapper({ children, id, type, index }: { children: React.Reac
         accept:Object.values(dragAbleTypes),
         drop:(item:{index:number, id:UUIDTypes, type:string},monitor)=>{        
             setElements((prev) => {
-              const oldElements = [...prev];
-              const [movedElement] = oldElements.splice(item.index, 1);
-              oldElements.splice(index, 0, movedElement);
-              return oldElements;
+              const oldElements = prev.map(e=>e)
+              const removedElement = removeReturnElement(oldElements,item.id)  
+              if (removedElement) {
+                loopHandlerDND(oldElements,removedElement,id,index)
+              }
+              console.log("list outSide:",oldElements);
+              
+              return oldElements
             });
-        
-            // Update the `index` of the dragged item to prevent reordering
             }
     }))
     useEffect(() => {

@@ -4,20 +4,26 @@ import { elements, elementType } from "../../types/editorTypes";
 export function loopHandlerDND(
     elements: elementType,
     dropItem: elementType[number],
-    id: UUIDTypes
-  ): boolean {
-    for (let index = 0; index < elements.length; index++) {
-      const e = elements[index];
-  
-      if (e.id === id) {
-        elements.splice(index, 0, dropItem);
-        return true;
+    id: UUIDTypes,
+    index: number) {
+      const targetUpdateElement = (list:elementType|undefined, targateId:UUIDTypes,index:number,dropElement:elementType[number]):boolean=>{
+        if(list){
+          
+          for(let i=0; i<list.length; i++){
+            if(list[i].id === targateId){
+              console.log("list before:",list);
+          list.splice(index,0,dropElement)
+          console.log("list after:",list);
+          
+          return true
+        }else if(list[i].childElement){
+          const found:boolean = targetUpdateElement(list[i].childElement,targateId,index,dropElement)
+          if (found) return true
+        }}
       }
-      if (e.childElement) {
-        const added = loopHandlerDND(e.childElement, dropItem, id);
-        if (added) return true;
+      return false
       }
-    }
-  
-    return false; 
+
+      targetUpdateElement(elements,id,index,dropItem)
+      return
   }
