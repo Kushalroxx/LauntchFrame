@@ -8,6 +8,7 @@ import { dragAbleTypes, elements } from '../types/editorTypes';
 import { addElement } from './lib/addElement';
 import {motion} from "framer-motion"
 import { Button, Card, CardHeader, CardTitle, ScrollArea } from '@/components/ui';
+import { removeNode } from './lib/removeNode';
 
 function Canvas() {
   const [elements, setElements] = useAtom(editorState)
@@ -18,14 +19,22 @@ function Canvas() {
   // },[elements])
   const [,drop] = useDrop(()=>({
     accept:Object.values(dragAbleTypes),
-    drop:(item:{id:UUIDTypes,type:elements,index?:number}, monitor)=>{ 
-      if(item.index != undefined && item.index >= 0){
+    drop:(item:{id:UUIDTypes,type:elements,index?:number}, monitor)=>{
+      if (monitor.didDrop()||!item) {
+        return
+      } 
+      let inParent = false
+      for (let index = 0; index < elements.length; index++) {
+        const element = elements[index];
+        if (element.id === item.id) {
+          inParent = true
+        }
+      }
+      if(!inParent && item.index !=undefined){
         setElements(prev=>{
           const oldElements = [...prev]
-          if(item.index!=undefined){
-            // const movedElement = oldElements.splice(item.index, 1)
-            // oldElements.push(movedElement[0])
-          }
+           const node = removeNode(oldElements,item.id)
+           node && oldElements.push(node)
           return oldElements
         })
     }else{
@@ -34,7 +43,7 @@ function Canvas() {
   }))
   return (
     //  @ts-ignore
-    <motion.div initial={{width:1024}} animate={{width: canvasSize.width}} transition={{ease:"backInOut",duration:0.6}} className=' w-full bg-background shadow-xl shadow-foreground/40' ref={drop}>
+    <motion.div initial={{width:1024}} animate={{width: canvasSize.width}} transition={{ease:"backInOut",duration:0.6}} className=' w-full bg-gray-500 shadow-xl shadow-foreground/40' ref={drop}>
       <ScrollArea className='h-[95vh]'>
       {elements.map((e, index)=>{
         return(<EditorRenderingHelper index={index} key={e.id.toString()} element = {e}/>)

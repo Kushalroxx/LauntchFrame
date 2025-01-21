@@ -18,32 +18,32 @@ function EditorRenderingHelper({ element, index }: {
     if (element.type === "card"){
       return(
         <SelectEditWrapper id={element.id} type={element.type} index={index}>
-          <Card className={`flex flex-col space-y-3 p-7 ${element.style}`} id={element.id.toString()}>
+          <div className={element.style} id={element.id.toString()}>
       {
         element.childElement?.map((e,i)=>{
           return(
             <EditorRenderingHelper index={i} key={e.id.toString()} element={e}/>
         )})
       }
-    </Card>
+    </div>
     </SelectEditWrapper>
     )
     }else if(element.type === "input"){
       return(
         <SelectEditWrapper id={element.id} type={element.type} index={index}>
-        <Input className={element.style} id={element.id.toString()}/>
+        <input className={element.style} id={element.id.toString()}/>
         </SelectEditWrapper>
         )
     }else if(element.type === "button"){
       return(
         <SelectEditWrapper id={element.id} type={element.type} index={index}>
-        <Button className={element.style} id={element.id.toString()}>{element.text}</Button>
+        <button className={element.style} id={element.id.toString()}>{element.text}</button>
         </SelectEditWrapper>
 )
     }else if (element.type === "label") {
       return(
         <SelectEditWrapper id={element.id} type={element.type} index={index}>
-        <Label className={element.style} id={element.id.toString()}>{element.text}</Label>
+        <label className={element.style} id={element.id.toString()}>{element.text}</label>
         </SelectEditWrapper>
       )
     }else if (element.type === "typographyh1") {
@@ -52,6 +52,17 @@ function EditorRenderingHelper({ element, index }: {
         <h1 className={`text-foreground font-extrabold text-2xl ${element.style}`} id={element.id.toString()}>{element.text}</h1>
         </SelectEditWrapper>
       )
+    }else if (element.type === "div") {
+      return(
+      <SelectEditWrapper id={element.id} type={element.type} index={index}>
+        <div className={element.style}>
+          {
+            element.childElement?.map((e,i)=>{
+              return(<EditorRenderingHelper element={e} index={i} key={e.id.toString()} />)
+            })
+          }
+        </div>
+      </SelectEditWrapper>)
     }
     else{
       return(<div></div>)

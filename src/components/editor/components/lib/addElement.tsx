@@ -8,6 +8,7 @@ export const addElement = (
         if (item.type==="card") {
             newElement = {
                 id:item.id,
+                style:"flex flex-col space-y-3 p-7",
                 type:item.type,
                 childElement:[{
                     id:uuid(),
@@ -48,6 +49,12 @@ export const addElement = (
                 id:item.id,
                 type:item.type,
                 text: "label"
+            }
+        }else if(item.type ==="div"){
+            newElement = {
+                id:item.id,
+                type:item.type,
+                childElement:[]
             }
         }else{       
             }

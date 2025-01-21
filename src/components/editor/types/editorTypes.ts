@@ -31,6 +31,7 @@ export type elementType = {
     Input:"input",
     Button:"button",
     Lable:"label",
-    Typographyh1:"typographyh1"
+    Typographyh1:"typographyh1",
+    Div:"div"
   }
   

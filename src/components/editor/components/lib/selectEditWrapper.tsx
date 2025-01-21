@@ -3,11 +3,12 @@ import { designState, editorState, refState } from '@/lib/atoms/Atoms'
 import { useAtom } from 'jotai'
 import React, { cloneElement, useEffect, useRef, useState } from 'react'
 import { UUIDTypes } from 'uuid'
-import { dragAbleTypes, elements } from '../../types/editorTypes'
+import { dragAbleTypes, elements, elementType } from '../../types/editorTypes'
 import { useDrag, useDrop } from 'react-dnd'
-import { number } from 'zod'
-import { removeReturnElement } from './removeReturnElement'
-import { loopHandlerDND } from './loopHandlerDND'
+import { removeNode} from './removeNode'
+import { deepCopy } from './deepcopy'
+import { insertNode } from './insartNode'
+import { findIndex } from './findIndex'
 
 function SelectEditWrapper({ children, id, type, index }: { children: React.ReactElement<any> ,
   id:UUIDTypes,
@@ -28,18 +29,23 @@ function SelectEditWrapper({ children, id, type, index }: { children: React.Reac
     }))
     const [, drop] = useDrop(()=>({
         accept:Object.values(dragAbleTypes),
-        drop:(item:{index:number, id:UUIDTypes, type:string},monitor)=>{        
-            setElements((prev) => {
-              const oldElements = prev.map(e=>e)
-              const removedElement = removeReturnElement(oldElements,item.id)  
-              if (removedElement) {
-                loopHandlerDND(oldElements,removedElement,id,index)
+        drop:(item:{index:number, id:UUIDTypes, type:string},monitor)=>{     
+          if (monitor.didDrop()||!item||item.id===id) {
+            return
+          }
+          setElements(prev=>{ 
+            const oldElements = deepCopy(prev);
+            const targetIndex = findIndex(id,oldElements)
+              if(targetIndex!=undefined){
+                const draggedNode = removeNode(oldElements, item.id);
+            if (draggedNode) {
+                insertNode(oldElements, id, draggedNode, targetIndex);
               }
-              console.log("list outSide:",oldElements);
-              
-              return oldElements
-            });
             }
+            return oldElements
+
+          })
+        }
     }))
     useEffect(() => {
         if (designer && elementRef.current) {
@@ -50,7 +56,11 @@ function SelectEditWrapper({ children, id, type, index }: { children: React.Reac
           drag(null)
           drop(null)
         }
-    }, [designer, drag, drop])
+    }, [elements,designer, drag, drop])
+    useEffect(() => {
+      currentRef?.focus()
+    }, [currentRef])
+    
 
   const handleClick = (e: React.MouseEvent<HTMLElement>) => {
     if (e.currentTarget !== e.target) return;
@@ -82,8 +92,6 @@ function SelectEditWrapper({ children, id, type, index }: { children: React.Reac
     e.stopPropagation();
     if(currentRef === e.currentTarget){
       setContentEditable(true)
-      // need to fix the focus not working on first doubleclick
-      currentRef.focus()
     }
 
   }
