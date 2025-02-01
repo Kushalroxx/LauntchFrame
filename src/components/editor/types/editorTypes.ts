@@ -6,7 +6,7 @@ export type webSiteType = {
   elements?:elementType
 }[]
 
-export type elements = "card"|"input"|"button"|"label"|"typographyh1"
+export type elements = "card"|"input"|"button"|"label"|"h1"
 
 export type elementType = {
     id:UUIDTypes,
@@ -26,12 +26,19 @@ export type elementType = {
       }[]
     }[]
   }[]
-  export const dragAbleTypes = {
+  export const dragAbleTypes:{
     Card:"card",
     Input:"input",
     Button:"button",
     Lable:"label",
-    Typographyh1:"typographyh1",
+    H1:"h1",
+    Div:"div"
+  } = {
+    Card:"card",
+    Input:"input",
+    Button:"button",
+    Lable:"label",
+    H1:"h1",
     Div:"div"
   }
   

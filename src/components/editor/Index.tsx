@@ -1,6 +1,6 @@
 "use client"
 import React from 'react'
-import EditorStyleBar from './components/EditorStyleBar'
+import EditorStyleBar from './components/Editor-ui/EditorStyleBar'
 import EditorTopBar from './components/EditorTopBar'
 import EditorSideBar from './components/EditorSideBar'
 import Canvas from './components/Canvas'
@@ -14,9 +14,10 @@ function Editor() {
         <div className='flex justify-between h-full w-full '>
         <DndProvider backend={HTML5Backend}>
         <EditorSideBar/>
+        <div className='w-full h-full flex justify-center'>
         <Canvas/>
+        </div>
         </DndProvider>
-        <EditorStyleBar/>
         </div>
     </div>
   )

@@ -1,7 +1,7 @@
 "use client"
 import { designState, editorState, refState } from '@/lib/atoms/Atoms'
 import { useAtom } from 'jotai'
-import React, { cloneElement, useEffect, useRef, useState } from 'react'
+import React, { cloneElement, createElement, useEffect, useRef, useState } from 'react'
 import { UUIDTypes } from 'uuid'
 import { dragAbleTypes, elements, elementType } from '../../types/editorTypes'
 import { useDrag, useDrop } from 'react-dnd'
@@ -9,6 +9,8 @@ import { removeNode} from './removeNode'
 import { deepCopy } from './deepcopy'
 import { insertNode } from './insartNode'
 import { findIndex } from './findIndex'
+import {Rnd} from "react-rnd"
+import ResizableBox from '../Editor-ui/ResizeableBox'
 
 function SelectEditWrapper({ children, id, type, index }: { children: React.ReactElement<any> ,
   id:UUIDTypes,
@@ -59,16 +61,18 @@ function SelectEditWrapper({ children, id, type, index }: { children: React.Reac
     }, [elements,designer, drag, drop])
     useEffect(() => {
       currentRef?.focus()
+      // console.log(currentRef);
+      
     }, [currentRef])
     
 
   const handleClick = (e: React.MouseEvent<HTMLElement>) => {
-    if (e.currentTarget !== e.target) return;
     e.stopPropagation();
+    if (e.currentTarget !== e.target) return;
     if (currentRef && currentRef != e.currentTarget) {
       currentRef.style.outline = ""
     }
-    setCurrentRef(e.currentTarget)
+    setCurrentRef(e.currentTarget )
   }
 
   const handleMouseEnter = (e: React.MouseEvent<HTMLElement>) => {
@@ -120,7 +124,7 @@ function SelectEditWrapper({ children, id, type, index }: { children: React.Reac
     setContentEditable(false)
   }
 
-  return (cloneElement(children, {
+  return (<ResizableBox ref ={elementRef}>{cloneElement(children, {
     onClick: handleClick,
     ref: (node:HTMLElement|undefined)=>{elementRef.current=node},
     onMouseEnter: handleMouseEnter,
@@ -129,7 +133,7 @@ function SelectEditWrapper({ children, id, type, index }: { children: React.Reac
     onBlur: handleBlur,
     contentEditable: contentEditable,
     suppressContentEditableWarning:true
-  }))
+  })}</ResizableBox>)
 }
 
 export default SelectEditWrapper

@@ -46,7 +46,7 @@ function EditorRenderingHelper({ element, index }: {
         <label className={element.style} id={element.id.toString()}>{element.text}</label>
         </SelectEditWrapper>
       )
-    }else if (element.type === "typographyh1") {
+    }else if (element.type === "h1") {
       return(
         <SelectEditWrapper id={element.id} type={element.type} index={index}>
         <h1 className={`text-foreground font-extrabold text-2xl ${element.style}`} id={element.id.toString()}>{element.text}</h1>
